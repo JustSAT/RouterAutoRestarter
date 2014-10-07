@@ -158,7 +158,7 @@ namespace RouterAutoRestarter
                         else
                         {
                             timerEnded = true;
-                            //RestartRouter();
+                            RestartRouter();
                         }
                     }
                 }
