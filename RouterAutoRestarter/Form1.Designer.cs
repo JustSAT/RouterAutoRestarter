@@ -35,7 +35,6 @@
             this.login = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
             this.start = new System.Windows.Forms.Button();
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
             // 
             // routerIp
@@ -101,20 +100,11 @@
             this.start.UseVisualStyleBackColor = true;
             this.start.Click += new System.EventHandler(this.start_Click);
             // 
-            // webBrowser
-            // 
-            this.webBrowser.Location = new System.Drawing.Point(13, 95);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(409, 231);
-            this.webBrowser.TabIndex = 8;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 382);
-            this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.start);
             this.Controls.Add(this.password);
             this.Controls.Add(this.login);
@@ -140,7 +130,6 @@
         private System.Windows.Forms.TextBox login;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.Button start;
-        private System.Windows.Forms.WebBrowser webBrowser;
     }
 }
 
