@@ -154,6 +154,7 @@ namespace RouterAutoRestarter
                         {
                             hours--;
                             minutes = 59;
+                            seconds = 59;
                         }
                         else
                         {
