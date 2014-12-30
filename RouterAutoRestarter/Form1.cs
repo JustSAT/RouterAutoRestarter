@@ -36,10 +36,6 @@ namespace RouterAutoRestarter
         {
             if (everyHours.Text.Length > 0 || everyMinutes.Text.Length > 0 || everySeconds.Text.Length > 0)
             {
-                timerStarted = true;
-                hoursLeft.BackColor = Color.ForestGreen;
-                minutesLeft.BackColor = Color.ForestGreen;
-                secondsLeft.BackColor = Color.ForestGreen;
                 if (everyHours.Text == "")
                 {
                     hours = 0;
@@ -68,13 +64,32 @@ namespace RouterAutoRestarter
                     if (seconds > 60)
                         seconds = 60;
                 }
-                hoursLeft.Text = hours.ToString();
-                minutesLeft.Text = minutes.ToString();
-                secondsLeft.Text = seconds.ToString();
+                if (hours >= 0 || minutes >= 1)
+                {
+                    hoursLeft.Text = hours.ToString();
+                    minutesLeft.Text = minutes.ToString();
+                    secondsLeft.Text = seconds.ToString();
 
-                everyHours.Enabled = false;
-                everyMinutes.Enabled = false;
-                everySeconds.Enabled = false;
+                    timerStarted = true;
+                    hoursLeft.BackColor = Color.ForestGreen;
+                    minutesLeft.BackColor = Color.ForestGreen;
+                    secondsLeft.BackColor = Color.ForestGreen;
+
+                    everyHours.Enabled = false;
+                    everyMinutes.Enabled = false;
+                    everySeconds.Enabled = false;
+                }
+                else
+                {
+                    everyMinutes.BackColor = Color.DarkRed;
+                    everySeconds.BackColor = Color.DarkRed;
+                    if (MessageBox.Show("Рестарт роутера займає певний час. \nБудь ласка укажіть більший період рестарту.") == DialogResult.OK)
+                    {
+                        everyHours.BackColor = Color.White;
+                        everyMinutes.BackColor = Color.White;
+                        everySeconds.BackColor = Color.White;
+                    }
+                }
             }
             else
             {
@@ -91,29 +106,36 @@ namespace RouterAutoRestarter
         }
         public void RestartRouter()
         {
-            //Адресс отвечающий за перезагрузку роутера
-            string adress = @"http://" + login.Text + ":" + password.Text + "@" + routerIp.Text + "/userRpm/SysRebootRpm.htm?Reboot=Перезагрузка";
+            try
+            {
+                //Адресс отвечающий за перезагрузку роутера
+                string adress = @"http://" + login.Text + ":" + password.Text + "@" + routerIp.Text + "/userRpm/SysRebootRpm.htm?Reboot=Перезагрузка";
 
-            Uri uri = new Uri(adress);
+                Uri uri = new Uri(adress);
 
-            //Инициализируем запрос
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri) as HttpWebRequest;
-            request.Accept = "application/xml";
+                //Инициализируем запрос
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri) as HttpWebRequest;
+                request.Accept = "application/xml";
 
-            //Т.к. при попытке подключиться к роутеру требует логин и пароль, 
-            //это надо учесть при написании кода. Следующие строчки этим и занимаются
-            var cache = new CredentialCache();
-            cache.Add(uri, "Basic", new NetworkCredential(login.Text, password.Text));
-            request.Credentials = cache;
+                //Т.к. при попытке подключиться к роутеру требует логин и пароль, 
+                //это надо учесть при написании кода. Следующие строчки этим и занимаются
+                var cache = new CredentialCache();
+                cache.Add(uri, "Basic", new NetworkCredential(login.Text, password.Text));
+                request.Credentials = cache;
 
 
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            string responseFromServer = reader.ReadToEnd();
-            reader.Close();
-            dataStream.Close();
-            response.Close();
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                string responseFromServer = reader.ReadToEnd();
+                reader.Close();
+                dataStream.Close();
+                response.Close();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Щось пішло не так...\n" + exception.ToString());
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -209,6 +231,10 @@ namespace RouterAutoRestarter
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (timerStarted)
+            {
+                continueTimer.Enabled = true;
+            }
             hoursLeft.BackColor = Color.WhiteSmoke;
             minutesLeft.BackColor = Color.WhiteSmoke;
             secondsLeft.BackColor = Color.WhiteSmoke;
@@ -217,6 +243,20 @@ namespace RouterAutoRestarter
             everyHours.Enabled = true;
             everyMinutes.Enabled = true;
             everySeconds.Enabled = true;
+        }
+
+        private void continueTimer_Click(object sender, EventArgs e)
+        {
+            continueTimer.Enabled = false;
+            timerStarted = true;
+            
+            hoursLeft.BackColor = Color.ForestGreen;
+            minutesLeft.BackColor = Color.ForestGreen;
+            secondsLeft.BackColor = Color.ForestGreen;
+
+            everyHours.Enabled = false;
+            everyMinutes.Enabled = false;
+            everySeconds.Enabled = false;
         }
 
     }

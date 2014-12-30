@@ -50,6 +50,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.continueTimer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // routerIp
@@ -261,19 +262,31 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(187, 12);
+            this.button1.Location = new System.Drawing.Point(305, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(235, 70);
+            this.button1.Size = new System.Drawing.Size(117, 70);
             this.button1.TabIndex = 21;
             this.button1.Text = "Стоп";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // continueTimer
+            // 
+            this.continueTimer.Enabled = false;
+            this.continueTimer.Location = new System.Drawing.Point(187, 12);
+            this.continueTimer.Name = "continueTimer";
+            this.continueTimer.Size = new System.Drawing.Size(117, 70);
+            this.continueTimer.TabIndex = 22;
+            this.continueTimer.Text = "Продовжити";
+            this.continueTimer.UseVisualStyleBackColor = true;
+            this.continueTimer.Click += new System.EventHandler(this.continueTimer_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 382);
+            this.Controls.Add(this.continueTimer);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -329,6 +342,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button continueTimer;
     }
 }
 
